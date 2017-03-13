@@ -57,7 +57,7 @@ drawobj = ImageDraw.Draw(txt)
 # initial text location
 texty = OUTPUT_SIZE[1] - (FONT_SIZE + (FONT_SIZE / 2))
 # take reversed STDIN and work up from the bottom
-for line in sorted(sys.stdin, reverse=True):
+for line in list(sys.stdin)[::-1]:
 	# draw text, full opacity
     drawobj.text((FONT_SIZE / 3, texty), line, font=fnt, fill=FONT_RGBA)
 	# move the "insertion point"
