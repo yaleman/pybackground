@@ -11,7 +11,7 @@ DESTFILE = '{}/output.jpg'.format(os.path.dirname(os.path.realpath(__file__)))
 OUTPUT_SIZE = (1280, 800)
 
 # mercilessly pilfered with love from https://github.com/adobe-fonts/source-sans-pro
-FONT_FILENAME = 'source-sans-pro-regular.ttf'
+FONT_FILENAME = '{}/source-sans-pro-regular.ttf'.format(os.path.dirname(os.path.realpath(__file__)))
 FONT_SIZE = 25
 # white, mostly opaque
 FONT_RGBA = (255, 255, 255, 240)
