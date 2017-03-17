@@ -6,6 +6,7 @@
 # import all the things
 from os import path, listdir
 from random import choice
+import re
 from argparse import ArgumentParser
 from sys import stdin
 import colorsys
@@ -20,7 +21,7 @@ DESTFILE = '{}/output.jpg'.format(path.dirname(path.realpath(__file__)))
 
 # season to taste
 OUTPUT_SIZE = (1280, 800)
-
+DEFAULT_QUALITY=85
 # mercilessly pilfered with love from https://github.com/adobe-fonts/source-sans-pro
 FONT_FILENAME = '{}/source-sans-pro-regular.ttf'.format(path.dirname(path.realpath(__file__)))
 FONT_SIZE = 25
@@ -30,13 +31,25 @@ FONT_RGBA = (255, 255, 255, 240)
 # deal with command line arguments
 parser = ArgumentParser(description='Take the text from STDIN and overlay it on an image.')
 parser.add_argument('-D', '--debug', dest='debug', action='store_true', help='enable debug mode')
-parser.add_argument('-q', '--quality', type=int, default=85, dest='quality', help='set jpeg quality, default is 85')
+parser.add_argument('-q', '--quality', type=int, default=DEFAULT_QUALITY, dest='quality', help='set jpeg quality, default is 85')
+parser.add_argument('-s', '--size', dest='output_size', default="{}x{}".format(*OUTPUT_SIZE), help='dimensions of output eg. 800x600')
 group = parser.add_mutually_exclusive_group()
 group.add_argument('-i', '--input', dest='sourcefile', default=SOURCEFILE, help='source file to use - default is "input.jpg"')
 group.add_argument('-r', '--randomdir', dest='randomdir', default=False, help='directory to pull random file from')
 args = parser.parse_args()
 
 image_extensions = ('jpeg', 'png', 'bmp', 'jpg', 'tif')
+
+# make sure it's vaguely right
+if re.match(r'\d+x\d+', args.output_size):
+    OUTPUT_SIZE = args.output_size.split("x")
+    x, y = OUTPUT_SIZE
+    OUTPUT_SIZE = (int(x), int(y))
+elif args.output_size:
+    print("Invalid output size specified: '{}' ignoring.".format(args.output_size))
+
+if args.debug:
+    print("Output dimensions: '{}'".format(OUTPUT_SIZE))
 
 if args.randomdir:
     fileoptions = listdir(args.randomdir)
