@@ -57,7 +57,7 @@ if args.debug:
     print("Input image stats: {}".format((baseimage.format, baseimage.size, baseimage.mode)))
 
 # resize the image
-baseimage = baseimage.resize(OUTPUT_SIZE, resample=Image.LANCZOS)
+baseimage = baseimage.resize(OUTPUT_SIZE, resample=Image.ANTIALIAS)
 if args.debug:
     print("Output image stats: {}".format((baseimage.format, baseimage.size, baseimage.mode)))
 
@@ -119,7 +119,7 @@ texty = OUTPUT_SIZE[1] - (FONT_SIZE + (FONT_SIZE / 2))
 for line in list(textlines)[::-1]:
 	# draw text, full opacity
     #drawobj.text(((FONT_SIZE / 3)+2, texty+2), line, font=fontobject, fill=averagecolour) # was FONT_RGBA
-    drawobj.text((FONT_SIZE / 3, texty), line, font=fontobject, fill=newrgb) # was FONT_RGBA
+    drawobj.text((FONT_SIZE / 3, texty), line.strip(), font=fontobject, fill=newrgb) # was FONT_RGBA
 	# move the "insertion point"
     texty -= (FONT_SIZE * 1.2)
 
